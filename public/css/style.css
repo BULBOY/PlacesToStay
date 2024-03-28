@@ -1,0 +1,48 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+  }
+  
+  h1, h2, h3 {
+    text-align: center;
+    margin: 1em 0; /* Add some margin for headings */
+  }
+  
+  /* Main Content Area */
+  .main-content {
+    width: 800px; /* Set a fixed width for the main content */
+    margin: 0 auto; /* Center the content horizontally */
+    padding: 2em; /* Add some padding for content area */
+  }
+  
+  /* Search Form */
+  
+  form {position: relative;
+    text-align: center;
+    display: block; /* Arrange form elements horizontally */
+    flex-direction: column; /* Stack elements vertically */
+    margin: 1em 0; /* Add some margin below the heading */
+  }
+  
+  input[type="text"],
+  input[type="button"] {
+    padding: 0.5em 1em; /* Add padding to input and button elements */
+    margin: 0.5em 0; /* Add some margin between elements */
+    border: 1px solid #ccc; /* Create a light border */
+  }
+  
+  input[type="button"] {
+    cursor: pointer; /* Indicate clickable button on hover */
+  }
+  
+  /* Map Container */
+  #map {
+    margin: 1em auto; /* Center the map horizontally */
+    border: 1px solid #ddd; /* Add a border to the map container */
+  }
+  
+  div {
+    text-align:center;
+  }

@@ -1,0 +1,27 @@
+###
+GET http://localhost:3000/location
+
+###
+
+GET http://localhost:3000/location/Hampshire/type/hotel
+
+###
+ 
+POST http://localhost:3000/booking/add
+Content-Type: application/json
+
+{
+    "id": 1,
+    "npeople": 2,
+    "thedate": 220611
+}
+
+###
+
+GET http://localhost:3000/accommodation/Colorado
+
+###
+
+GET http://localhost:3000/accommodation/Colorado/type/hotel
+
+
