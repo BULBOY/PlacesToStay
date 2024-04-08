@@ -1,5 +1,6 @@
 const express = require('express');
 const Database = require('better-sqlite3');
+const session = require('express-session')
 
 
 // CONFIG SETTINGS
