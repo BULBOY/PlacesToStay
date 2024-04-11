@@ -24,4 +24,14 @@ GET http://localhost:3000/accommodation/Colorado
 
 GET http://localhost:3000/accommodation/Colorado/type/hotel
 
+###
+
+GET http://localhost:3000/authenticate
+Content-Type: application/json
+
+{
+    "username":"tim",
+    "password":"tim123"
+}
+
 

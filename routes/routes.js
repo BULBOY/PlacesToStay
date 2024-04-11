@@ -8,10 +8,14 @@ const DB = 'placesToStay.db'; //path to the SQLite database file
 const db = new Database(DB);
 console.log(`Connected to the ${DB} database`);
 
+
 router.get('/',(req,res)=>{
     res.render('index')
 })
 
+router.get('/login',(req, res)=>{
+    res.render('signup')
+})
 
 router.get('/location',(req,res) => {
     try{
@@ -49,6 +53,9 @@ router.get('/location/:name/type/:type',(req,res)=> {
 });
 
 
+//-----------------------------------------------------------------------------------------------------------------------------------------
+
+
 router.post('/booking/add',(req,res)=>{    
         try {
             //check if empty input
@@ -77,29 +84,124 @@ router.post('/booking/add',(req,res)=>{
     });
 
 
-    router.get('/accommodation/:name',(req,res) => {
-        try{
-            const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=?;');
-            const results = stmt.all(req.params.name);
-            res.json(results);
-        }
-        catch (error) {
-            //console.log(error);
-            res.status(500).json({ error: error });
-        }
-    });    
+router.get('/accommodation/:name',(req,res) => {
+    try{
+        const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=?;');
+        const results = stmt.all(req.params.name);
+        res.json(results);
+    }
+    catch (error) {
+        //console.log(error);
+        res.status(500).json({ error: error });
+    }
+});    
 
 
-    router.get('/accommodation/:name/type/:type',(req,res) => {
-        try{
-            const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=? AND accommodation.type=?;');
-            const results = stmt.all(req.params.name,req.params.type);
-            res.json(results);
+router.get('/accommodation/:name/type/:type',(req,res) => {
+    try{
+        const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=? AND accommodation.type=?;');
+        const results = stmt.all(req.params.name,req.params.type);
+        res.json(results);
+    }
+    catch (error) {
+        //console.log(error);
+        res.status(500).json({ error: error });
+    }
+});
+
+
+
+
+
+// router.post('/authenticate', (req, res) => {
+//     // try {
+//     //     // const username = req.body.username;
+//     //     // const password = req.body.password;
+//         const {username, password} = req.body
+
+//     //     //const stmt = db.prepare('SELECT * FROM acc_users WHERE username=?');
+
+//         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=?');
+//         stmt.get([req.body.username], (err, user) => { // Use stmt.get for single row retrieval
+//     //         // if (err) {
+//     //         //     console.error(err); // Log the error for debugging
+//     //         //     return res.status(500).send('Internal Server Error'); // Inform user about a general error
+//     //         // }
+
+//     //         // if (!user) { // User not found in the database
+//     //         //     return res.status(401).send('Invalid credentials');
+//     //         // }
+
+//     //         // // Validate password using a secure hashing mechanism (e.g., bcrypt)
+//     //         // // Replace the following with your password hashing logic:
+//     //         // if (password === user.password ) {
+//     //         //     req.session.isLoggedIn = true;
+//     //         //     res.send('Login successful');
+//     //         // } else {
+//     //         //     res.status(401).send('Invalid credentials');
+//     //         // }
+//     //    // });
+//     //    res.json(results);
+//     // } catch (error) {
+//     //     console.error(err); // Log the error for debugging
+//     //     res.status(500).send('Internal Server Error');
+//     // }
+
+//     //db.get('SELECT * FROM acc_users WHERE username=?', [username],(err,user) => {
+//         if (err) {
+//             console.error(err.message);
+//             return res.status(500).json({error:"Internal Server Error"})
+//         }
+
+//         if (!user) {
+//             return res.status(401).send({error:"Invalid username or password"})
+//         }
+
+//         if (password != user.password) {
+//             return res.status(401).json({error:"Invalid username or password"})
+//         }
+
+//         return res.redirect('/')
+//     })
+
+// });
+
+router.post('/user_login', (req, res) => {
+    //const { username, password } = req.body;
+    const username = req.body.username;
+    const password = req.body.password;
+    //document = req.body
+    //const username = document.getElementById('username').value;
+    //const password = document.getElementById('password').value;
+  
+    // Fetch user from the database by username
+    //db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+    const stmt = db.prepare('SELECT * FROM acc_users WHERE username=?');
+    const result = stmt.get(req.body.username) //(err, user) 
+    console.log(result)
+      if (err) {
+        console.error(err.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+  
+      if (!user) {
+        return res.status(401).json({ error: 'Invalid username or password' });
+      }
+  
+      // Compare hashed password from database with provided password
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).json({ error: 'Internal Server Error' });
         }
-        catch (error) {
-            //console.log(error);
-            res.status(500).json({ error: error });
+  
+        if (!result) {
+          return res.status(401).json({ error: 'Invalid username or password' });
         }
+  
+        return res.status(200).json({ message: 'Login successful' });
+      });
     });
+  //});
 
 module.exports = router;

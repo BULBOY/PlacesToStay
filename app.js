@@ -10,11 +10,22 @@ const PORT = 3000;
 const app = express();
 app.use(express.json()); // necessary to read JSON data from the request body (POST requests)
 app.set('view engine','ejs');
+app.use(express.urlencoded({extended:true}))
+
+
+app.use(session({
+    secret: 'placestostay key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true for https
+  }));
 
 // Access static content in 'public' folder (html, images, etc...)]
 app.use(express.static('public'));
 
 const projectRoute = require('../PlacesToStay/routes/routes');
+////const userAuth = require('../PlacesToStay/routes/auth')
 app.use('/', projectRoute);
+//app.use('/user_login',userAuth);
 
 app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}/`));

@@ -199,13 +199,13 @@ function reserveAccommodation(data) {
     data.forEach(accommodation => {
         const div = document.createElement("div");
 
-        const textNode1 = document.createTextNode(`<b>Location: ${accommodation.location}`);
+        const textNode1 = document.createTextNode(`Location: ${accommodation.location}`);
         const textNode2 = document.createTextNode(`Type: ${accommodation.type}`);
         const textNode3 = document.createTextNode(`Booking date: ${accommodation.thedate}`);
 
         const accommodationFormPeople = document.createElement("input");
         accommodationFormPeople.setAttribute("type", "number");
-        accommodationFormPeople.setAttribute("id", "people");
+        accommodationFormPeople.setAttribute("id", `${accommodation.thedate}`);
         accommodationFormPeople.setAttribute("value", "1"); // Default value for number of people
 
         const label = document.createElement("label");
@@ -222,7 +222,7 @@ function reserveAccommodation(data) {
 
                 const newText = {
                     "id":`${accommodation.ID}`,
-                    "npeople":document.getElementById("people").value,
+                    "npeople":document.getElementById(`${accommodation.thedate}`).value,
                     "thedate":`${accommodation.thedate}`
                     }
         
@@ -263,7 +263,41 @@ function reserveAccommodation(data) {
         div.appendChild(document.createElement("br"));
         div.appendChild(document.createElement("br"));
         div.appendChild(document.createElement("br"));
+    
 
         document.getElementById("searchAccommodResoults").appendChild(div);
     });
 }
+
+async function userAutentication(){
+    try{
+        // const newData = {
+        //     'username':document.getElementById("uname").value,
+        //     'password':document.getElementById("password").value
+
+
+        // }
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const formdata = new FormData();
+        
+        formdata.append('username', username);
+        formdata.append('password', password)
+
+        console.log(`user data: ${JSON.stringify(formdata)}`);
+        const response = await fetch("/authenticate",{
+            method: 'POST',
+            //headers: {
+              //      'Content-Type': 'application/json'
+               // },
+            //body: JSON.stringify(newData)
+            body: formdata
+        });
+        const result = await response.json();
+        console.log("Success:" , result)
+
+    }catch(error){
+
+    }
+};

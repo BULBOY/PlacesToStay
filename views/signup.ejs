@@ -2,28 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <body>
-        <form action="/authenticate" method="post">
+        <form action="/user_login" method="POST">
             <h1>User Sign In</h1>
             <p>Please sign in to your account.</p>
             <hr>
     
-            <label for="uname">Name :</label>
-            <input type="text" placeholder="Type your name" name="uname"><br>
+            <label for="username">Name :</label>
+            <input type="text" placeholder="Type your name" id = "username" name="username"><br>
     
             <label for="password">Password :</label>
-            <input type="password" placeholder="Type your password" name="password">
+            <input type="password" placeholder="Type your password" id = "password" name="password">
             <hr>
+            <input type="submit" value="Login">
     
-            <button type="submit" class="registerbtn">Sign In</button>
-    
-            <p>Don't have an account? <a href="/">Register</a>.</p>
         </form>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="/public/js/index.js"></script>
     </body>
 </html>
