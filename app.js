@@ -24,8 +24,6 @@ app.use(session({
 app.use(express.static('public'));
 
 const projectRoute = require('../PlacesToStay/routes/routes');
-////const userAuth = require('../PlacesToStay/routes/auth')
 app.use('/', projectRoute);
-//app.use('/user_login',userAuth);
 
 app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}/`));

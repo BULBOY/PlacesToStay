@@ -269,35 +269,35 @@ function reserveAccommodation(data) {
     });
 }
 
-async function userAutentication(){
-    try{
-        // const newData = {
-        //     'username':document.getElementById("uname").value,
-        //     'password':document.getElementById("password").value
+// async function userAutentication(){
+//     try{
+//         // const newData = {
+//         //     'username':document.getElementById("uname").value,
+//         //     'password':document.getElementById("password").value
 
 
-        // }
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+//         // }
+//         const username = document.getElementById('username').value;
+//         const password = document.getElementById('password').value;
 
-        const formdata = new FormData();
+//         const formdata = new FormData();
         
-        formdata.append('username', username);
-        formdata.append('password', password)
+//         formdata.append('username', username);
+//         formdata.append('password', password)
 
-        console.log(`user data: ${JSON.stringify(formdata)}`);
-        const response = await fetch("/authenticate",{
-            method: 'POST',
-            //headers: {
-              //      'Content-Type': 'application/json'
-               // },
-            //body: JSON.stringify(newData)
-            body: formdata
-        });
-        const result = await response.json();
-        console.log("Success:" , result)
+//         console.log(`user data: ${JSON.stringify(formdata)}`);
+//         const response = await fetch("/authenticate",{
+//             method: 'POST',
+//             //headers: {
+//               //      'Content-Type': 'application/json'
+//                // },
+//             //body: JSON.stringify(newData)
+//             body: formdata
+//         });
+//         const result = await response.json();
+//         console.log("Success:" , result)
 
-    }catch(error){
+//     }catch(error){
 
-    }
-};
+//     }
+// };

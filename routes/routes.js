@@ -67,8 +67,6 @@ router.post('/booking/add',(req,res)=>{
                 const stmt_upd = db.prepare('UPDATE acc_dates SET availability = availability - 1 WHERE accID=? AND thedate=?');
                 const new_info = stmt_upd.run(req.body.id,req.body.thedate)
                 
-                // console.log(`POST add title ${req.body.title} by artist ${req.body.artist}: ${info.changes} changes made, last inserted row ID ${info.lastInsertRowid}`);
-                // res.json({ id: info.lastInsertRowid });
                 if (info.changes==1) {
                     res.json({ success: 1 });
                 } else {
@@ -109,99 +107,21 @@ router.get('/accommodation/:name/type/:type',(req,res) => {
     }
 });
 
-
-
-
-
-// router.post('/authenticate', (req, res) => {
-//     // try {
-//     //     // const username = req.body.username;
-//     //     // const password = req.body.password;
-//         const {username, password} = req.body
-
-//     //     //const stmt = db.prepare('SELECT * FROM acc_users WHERE username=?');
-
-//         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=?');
-//         stmt.get([req.body.username], (err, user) => { // Use stmt.get for single row retrieval
-//     //         // if (err) {
-//     //         //     console.error(err); // Log the error for debugging
-//     //         //     return res.status(500).send('Internal Server Error'); // Inform user about a general error
-//     //         // }
-
-//     //         // if (!user) { // User not found in the database
-//     //         //     return res.status(401).send('Invalid credentials');
-//     //         // }
-
-//     //         // // Validate password using a secure hashing mechanism (e.g., bcrypt)
-//     //         // // Replace the following with your password hashing logic:
-//     //         // if (password === user.password ) {
-//     //         //     req.session.isLoggedIn = true;
-//     //         //     res.send('Login successful');
-//     //         // } else {
-//     //         //     res.status(401).send('Invalid credentials');
-//     //         // }
-//     //    // });
-//     //    res.json(results);
-//     // } catch (error) {
-//     //     console.error(err); // Log the error for debugging
-//     //     res.status(500).send('Internal Server Error');
-//     // }
-
-//     //db.get('SELECT * FROM acc_users WHERE username=?', [username],(err,user) => {
-//         if (err) {
-//             console.error(err.message);
-//             return res.status(500).json({error:"Internal Server Error"})
-//         }
-
-//         if (!user) {
-//             return res.status(401).send({error:"Invalid username or password"})
-//         }
-
-//         if (password != user.password) {
-//             return res.status(401).json({error:"Invalid username or password"})
-//         }
-
-//         return res.redirect('/')
-//     })
-
-// });
-
-router.post('/user_login', (req, res) => {
-    //const { username, password } = req.body;
+router.post('/user_login', (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
-    //document = req.body
-    //const username = document.getElementById('username').value;
-    //const password = document.getElementById('password').value;
-  
-    // Fetch user from the database by username
-    //db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
-    const stmt = db.prepare('SELECT * FROM acc_users WHERE username=?');
-    const result = stmt.get(req.body.username) //(err, user) 
-    console.log(result)
-      if (err) {
-        console.error(err.message);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-  
-      if (!user) {
-        return res.status(401).json({ error: 'Invalid username or password' });
-      }
-  
-      // Compare hashed password from database with provided password
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (err) {
-          console.error(err.message);
-          return res.status(500).json({ error: 'Internal Server Error' });
+    try{
+        if (username == "" || password == "") {
+            res.status(400).json({ error: "Blank fields" });
+        }else{
+        const stmt = db.prepare('SELECT * FROM acc_users WHERE username=? AND password=?');
+        const result = stmt.get(username,password);
+        res.json(result);
         }
-  
-        if (!result) {
-          return res.status(401).json({ error: 'Invalid username or password' });
-        }
-  
-        return res.status(200).json({ message: 'Login successful' });
-      });
-    });
-  //});
+    }catch(error){
+
+    }
+
+  });
 
 module.exports = router;
