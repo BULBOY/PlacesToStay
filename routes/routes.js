@@ -107,9 +107,28 @@ router.get('/accommodation/:name/type/:type',(req,res) => {
     }
 });
 
-router.post('/user_login', (req,res) => {
+// router.post('/user_login', (req,res) => {
+//     const username = req.body.username;
+//     const password = req.body.password;
+//     try{
+//         if (username == "" || password == "") {
+//             res.status(400).json({ error: "Blank fields" });
+//         }else{
+//         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=? AND password=?');
+//         const result = stmt.get(username,password);
+//         res.json(result);
+//         }
+//     }catch(error){
+
+//     }
+
+//   });
+
+  router.post('/user_login', (req,res) => {
+    //console.log(res.body)
     const username = req.body.username;
     const password = req.body.password;
+    console.log(username,password)
     try{
         if (username == "" || password == "") {
             res.status(400).json({ error: "Blank fields" });
@@ -117,11 +136,11 @@ router.post('/user_login', (req,res) => {
         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=? AND password=?');
         const result = stmt.get(username,password);
         res.json(result);
+        console.log(result)
         }
     }catch(error){
 
     }
-
   });
 
 module.exports = router;

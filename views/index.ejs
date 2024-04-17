@@ -11,6 +11,24 @@
     <title>Place to Stay</title>
 </head>
 <body>
+    <div>Login</div>
+    <div><h1>Helo</h1><h1 id="userName"></h1></div>
+    <script>
+        //const div = document.createElement("div");
+        const storedResult = sessionStorage.getItem('loginResult');
+      document.getElementById("userName").innerHTML = storedResult;
+      //console.log(storedResult)
+      //if (storedResult){
+          //const resultData = JSON.parse(storedResult);
+        //  console.log(storedResult)
+          //const textNode = document.createTextNode(`Hello ${storedResult}`);
+          //document.getElementById("userName").innerHTML = textNode;
+          //div.appendChild(textNode);
+
+          //document.getElementById("usernName").appendChild(div)
+          
+     // }
+    </script>
     <h1>Search For Accommodation</h1>
     <h3>Please Enter The Location Of The Accommodetion</h3>
     <form>

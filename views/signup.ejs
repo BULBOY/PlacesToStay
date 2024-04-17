@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <script src="index.js"></script>  <title>Login</title>
 </head>
 <body>
-    <form action="/user_login" method="POST">
-        <h1>User Sign In</h1>
+    <form>  <h1>User Sign In</h1>
         <p>Please sign in to your account.</p>
         <hr>
 
         <label for="username">Name :</label>
-        <input type="text" placeholder="Type your name" id = "username" name="username"><br>
+        <input type="text" placeholder="Type your name" id="username" name="username"><br>
 
         <label for="password">Password :</label>
-        <input type="password" placeholder="Type your password" id = "password" name="password">
+        <input type="password" placeholder="Type your password" id="password" name="password">
         <hr>
-        <input type="submit" value="Login">
-
-    </form>
+        <input type="button" value="Login" id="searchAccommdBtn" onclick="userAuthentication()">  </form>
 </body>
 </html>
