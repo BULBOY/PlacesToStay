@@ -130,16 +130,14 @@ router.get('/accommodation/:name/type/:type',(req,res) => {
     const password = req.body.password;
     console.log(username,password)
     try{
-        if (username == "" || password == "") {
-            res.status(400).json({ error: "Blank fields" });
-        }else{
         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=? AND password=?');
         const result = stmt.get(username,password);
         res.json(result);
         console.log(result)
-        }
+       
+        
     }catch(error){
-
+        
     }
   });
 

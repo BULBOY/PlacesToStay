@@ -1,3 +1,5 @@
+//const session = require("express-session");
+
 async function searchByLocation() {
     const location = document.getElementById("location").value;
     console.log(`Location ${location}`);
@@ -25,19 +27,31 @@ async function searchByLocation() {
         console.error("Error fetching data:", error);
     }
 }
+//#################################################################################################
+
 
 async function bookAccommodation(type) {
+    
+
     const location = document.getElementById("location").value;
     console.log(`Location ${location}`);
 
     try {
+        if (sessionStorage.getItem('loginIn') === 'true'){
+            //
         const response = await fetch(`/accommodation/${location}/type/${type}`);
         const data = await response.json();
         reserveAccommodation(data);
+    }else{
+        alert("Please Login if you want to book accommodation")
+    }
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 }
+
+//##################################################################################################
+
 
 function reserveAccommodation(data) {
     document.getElementById("searchAccommodResoults").innerHTML = "";
@@ -112,50 +126,55 @@ function reserveAccommodation(data) {
 
         document.getElementById("searchAccommodResoults").appendChild(div);
     });
-}
+};
 
-    async function userAuthentication() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+//#######################################################################################################
+
+async function userAuthentication() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const data = {"username":`${username}`,"password":`${password}`}
+    console.log(data); // For debugging purposes
+
+    // if (username === ""||password === ""){
+    //     alert("User name or password not valid ")
+    // };
       
-        // const formData = new FormData();
-        // formData.append("username", `${username}`);
-        // formData.append('password', `${password}`);
-        // console.log(formData)
-        const data = {"username":`${username}`,"password":`${password}`}
-        console.log(data); // For debugging purposes
+    try {
+        const response = await fetch('/user_login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+        });
+        console.log(response)
+
+        if (!response.ok) {
+            //throw new Error(`Login failed with status: ${response.status}`);
+            alert("User name or password not valid ")
+        }else{
       
-        try {
-          const response = await fetch('/user_login', {
-            method: 'POST',
-            //body: formData, // Use FormData directly for POST requests
-            // Remove the incorrect Content-Type header as FormData handles content type
-            //body: JSON.stringify(formData),
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-          });
-          console.log(response)
-          if (!response.ok) {
-            throw new Error(`Login failed with status: ${response.status}`);
-          }
-      
-          const result = await response.json();
-          console.log("Success:", result.username);
+        const result = await response.json();
+        console.log("Success:", result.username);
           
-          if (result) {
+        //if (result) {
             console.log(result)
+            sessionStorage.setItem("loginIn",true);
             sessionStorage.setItem("loginResult",result.username);
-            //res.redirect("/"); // Redirect on success
             window.location.href = "/";
-            
-          } else {
-            // Handle failed login
-          }
+        }   
+        // } else {
+        //     // Handle failed login
+        //     alert("User name or password not valid ")
+        // };
       
-          // Handle successful login (e.g., redirect, display success message)
-        } catch (error) {
-          console.error("Error:", error.message);
-          // Handle login errors (e.g., display error message to user)
-        }
+    // Handle successful login (e.g., redirect, display success message)
+    } catch (error) {
+       // console.error("Error:", error.message);
+       console.error("Error",error)
+        alert("User name or password not valid ")
+    // Handle login errors (e.g., display error message to user)
+    };
        
-      }
+};
+

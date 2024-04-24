@@ -11,23 +11,38 @@
     <title>Place to Stay</title>
 </head>
 <body>
-    <div>Login</div>
-    <div><h1>Helo</h1><h1 id="userName"></h1></div>
+    <div id="userName"></div>
+    <div id="logout">
     <script>
-        //const div = document.createElement("div");
-        const storedResult = sessionStorage.getItem('loginResult');
-      document.getElementById("userName").innerHTML = storedResult;
-      //console.log(storedResult)
-      //if (storedResult){
-          //const resultData = JSON.parse(storedResult);
-        //  console.log(storedResult)
-          //const textNode = document.createTextNode(`Hello ${storedResult}`);
-          //document.getElementById("userName").innerHTML = textNode;
-          //div.appendChild(textNode);
+        const storedResult = sessionStorage.getItem("loginResult");
+               
+        function createLogoutButon() {
+            const logoutButton = document.createElement('button');
+            logoutButton.textContent = 'Logout';
+            logoutButton.addEventListener('click', function(){
+                sessionStorage.removeItem("loginIn");
+                sessionStorage.removeItem("loginResult");
+                alert('Logged out successfully')
+                window.location = '/';
+            });
+            document.getElementById('logout').appendChild(logoutButton);
+        } 
 
-          //document.getElementById("usernName").appendChild(div)
-          
-     // }
+        function createLoginButon() {
+            const loginButton = document.createElement('button');
+            loginButton.textContent = 'Login';
+            loginButton.addEventListener('click', function(){
+            window.location = '/login';
+            });
+            document.getElementById('logout').appendChild(loginButton);
+        } 
+
+        if (sessionStorage.getItem('loginIn') === 'true'){
+            createLogoutButon();
+            document.getElementById("userName").innerHTML = 'Hello ' + storedResult;
+        }else{
+            createLoginButon();
+        }
     </script>
     <h1>Search For Accommodation</h1>
     <h3>Please Enter The Location Of The Accommodetion</h3>
