@@ -97,7 +97,9 @@ function reserveAccommodation(data) {
                 body: JSON.stringify(newText)
              });
              const result = await response.json();
+             alert("Your booking was successful ")
              console.log("Success:" , result)
+             window.location.href = "/";
             
             }catch (error){
             console.error("Error",error)
