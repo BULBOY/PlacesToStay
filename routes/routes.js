@@ -24,7 +24,6 @@ router.get('/location',(req,res) => {
         res.json(results);
     }
     catch (error) {
-        //console.log(error);
         res.status(500).json({ error: error });
     }
 });
@@ -36,7 +35,6 @@ router.get('/location/:name',(req,res) => {
         res.json(results);
     }
     catch (error) {
-        //console.log(error);
         res.status(500).json({ error: error });
     }
 });
@@ -76,7 +74,6 @@ router.post('/booking/add',(req,res)=>{
             
         } catch (error) {
             res.status(500).json({ error: error });
-            //console.log(error);
             console.log(`POST add title ${req.body.title} by artist ${req.body.artist} error`);
         }
     });
@@ -89,7 +86,6 @@ router.get('/accommodation/:name',(req,res) => {
         res.json(results);
     }
     catch (error) {
-        //console.log(error);
         res.status(500).json({ error: error });
     }
 });    
@@ -97,38 +93,20 @@ router.get('/accommodation/:name',(req,res) => {
 
 router.get('/accommodation/:name/type/:type',(req,res) => {
     try{
-        const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=? AND accommodation.type=?;');
+        const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=? AND accommodation.type=? AND acc_dates.availability > 0;');
         const results = stmt.all(req.params.name,req.params.type);
         res.json(results);
     }
     catch (error) {
-        //console.log(error);
         res.status(500).json({ error: error });
     }
 });
 
-// router.post('/user_login', (req,res) => {
-//     const username = req.body.username;
-//     const password = req.body.password;
-//     try{
-//         if (username == "" || password == "") {
-//             res.status(400).json({ error: "Blank fields" });
-//         }else{
-//         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=? AND password=?');
-//         const result = stmt.get(username,password);
-//         res.json(result);
-//         }
-//     }catch(error){
-
-//     }
-
-//   });
+//#################################################################################
 
   router.post('/user_login', (req,res) => {
-    //console.log(res.body)
     const username = req.body.username;
     const password = req.body.password;
-    console.log(username,password)
     try{
         const stmt = db.prepare('SELECT * FROM acc_users WHERE username=? AND password=?');
         const result = stmt.get(username,password);
@@ -137,7 +115,7 @@ router.get('/accommodation/:name/type/:type',(req,res) => {
        
         
     }catch(error){
-        
+
     }
   });
 

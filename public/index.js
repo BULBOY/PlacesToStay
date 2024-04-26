@@ -1,17 +1,17 @@
-//const session = require("express-session");
-
 async function searchByLocation() {
+   
     const location = document.getElementById("location").value;
     console.log(`Location ${location}`);
 
     try {
+        
         const response = await fetch(`/accommodation/${location}`);
         const data = await response.json();
-
+        
         const map = L.map("map");
         const attrib = "Map data copyright OpenStreetMap contributors, Open Database Licence";
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: attrib }).addTo(map);
-
+             
         const coordinates = data[0];
         const pinOnMap = [coordinates.latitude, coordinates.longitude];
 
@@ -23,10 +23,11 @@ async function searchByLocation() {
                     .bindPopup(`<b>${result.name}</b><br>Type: ${result.type}<br>Location: ${result.location}<br>Description: ${result.description}<br><br><center><button onclick="bookAccommodation('${result.type}')">Book</button>`);
             }
         });
+        
     } catch (error) {
         console.error("Error fetching data:", error);
     }
-}
+};
 //#################################################################################################
 
 
@@ -136,10 +137,6 @@ async function userAuthentication() {
 
     const data = {"username":`${username}`,"password":`${password}`}
     console.log(data); // For debugging purposes
-
-    // if (username === ""||password === ""){
-    //     alert("User name or password not valid ")
-    // };
       
     try {
         const response = await fetch('/user_login', {
@@ -150,24 +147,16 @@ async function userAuthentication() {
         console.log(response)
 
         if (!response.ok) {
-            //throw new Error(`Login failed with status: ${response.status}`);
             alert("User name or password not valid ")
         }else{
       
         const result = await response.json();
         console.log("Success:", result.username);
-          
-        //if (result) {
-            console.log(result)
-            sessionStorage.setItem("loginIn",true);
-            sessionStorage.setItem("loginResult",result.username);
-            window.location.href = "/";
-        }   
-        // } else {
-        //     // Handle failed login
-        //     alert("User name or password not valid ")
-        // };
-      
+        console.log(result)
+        sessionStorage.setItem("loginIn",true);
+        sessionStorage.setItem("loginResult",result.username);
+        window.location.href = "/";
+        }         
     // Handle successful login (e.g., redirect, display success message)
     } catch (error) {
        // console.error("Error:", error.message);
