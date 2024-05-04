@@ -80,10 +80,13 @@ function reserveAccommodation(data) {
         async function booking(){
             try{
 
+                const storedResult = sessionStorage.getItem("loginResult");
+
                 const newText = {
                     "id":`${accommodation.ID}`,
                     "npeople":document.getElementById(`${accommodation.thedate}`).value,
-                    "thedate":`${accommodation.thedate}`
+                    "thedate":`${accommodation.thedate}`,
+                    "username": storedResult
                     }
         
                     console.log(`add new title: ${JSON.stringify(newText)}`);

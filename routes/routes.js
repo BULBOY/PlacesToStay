@@ -60,8 +60,8 @@ router.post('/booking/add',(req,res)=>{
             if (req.body.id == "" || req.body.npeople == "" || req.body.thedate == "" ) {
                 res.status(400).json({ error: "Blank fields" });
             } else {
-                const stmt = db.prepare('INSERT into acc_bookings(accID,thedate,npeople) VALUES(?,?,?)'); //statement - SQL query
-                const info = stmt.run(req.body.id, req.body.thedate, req.body.npeople); //run the query and store the information about it
+                const stmt = db.prepare('INSERT into acc_bookings(accID,thedate,npeople,username) VALUES(?,?,?,?)'); //statement - SQL query
+                const info = stmt.run(req.body.id, req.body.thedate, req.body.npeople, req.body.username); //run the query and store the information about it
                 const stmt_upd = db.prepare('UPDATE acc_dates SET availability = availability - 1 WHERE accID=? AND thedate=?');
                 const new_info = stmt_upd.run(req.body.id,req.body.thedate)
                 
