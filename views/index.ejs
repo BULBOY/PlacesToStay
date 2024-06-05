@@ -13,7 +13,8 @@
     <title>Place to Stay</title>
 </head>
 <body>
-    <div id="userName"></div>
+  <div class="main_menue">
+    <div class="name" id="userName"></div>
     <div id="logout">
     <script>
         const storedResult = sessionStorage.getItem("loginResult");
@@ -52,7 +53,9 @@
         <input type='text' id='location'>
         <input type="button" onclick="searchByLocation()" value="Search" id="searchAccommdBtn">
     </form>
-    <div id="map" style="width:800px; height:600px"> </div>
-    <div id="searchAccommodResoults" ></div>
+    </div>
+    <div id="map" style="width:800px; height:400px"> </div>
+    <div  id="searchAccommodResoults" ></div>
 </body>
+<script type="text/javascript" src="map.js"></script>
 </html>

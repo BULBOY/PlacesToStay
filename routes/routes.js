@@ -1,26 +1,29 @@
+// Import Express module and create a router object for handling routes.
 const express = require('express');
 const router = express.Router();
+// Import the better-sqlite3 module for database interactions.
 const Database = require('better-sqlite3');
 
 
-// DB connection
+// Establish a connection to the SQLite database specified by the DB path.
 const DB = 'placesToStay.db'; //path to the SQLite database file
 const db = new Database(DB);
 console.log(`Connected to the ${DB} database`);
 
-
+// Route to render the home page.
 router.get('/',(req,res)=>{
     res.render('index')
 })
-
+// Route to render the signup page.
 router.get('/login',(req, res)=>{
     res.render('signup')
 })
 
+// Route to fetch all accommodations from the database.
 router.get('/location',(req,res) => {
     try{
         const stmt = db.prepare('SELECT * FROM accommodation');
-        const results = stmt.all();
+        const results = stmt.all(); // Execute query and fetch all results.
         res.json(results);
     }
     catch (error) {
@@ -28,10 +31,11 @@ router.get('/location',(req,res) => {
     }
 });
 
+// Route to fetch accommodations by location name.
 router.get('/location/:name',(req,res) => {
     try{
         const stmt = db.prepare('SELECT * FROM accommodation WHERE location=?');
-        const results = stmt.all(req.params.name);
+        const results = stmt.all(req.params.name); // Execute query with provided location name.
         res.json(results);
     }
     catch (error) {
@@ -39,6 +43,8 @@ router.get('/location/:name',(req,res) => {
     }
 });
 
+
+// Route to fetch accommodations by location and type.
 router.get('/location/:name/type/:type',(req,res)=> {
     try{
         const stmt = db.prepare('SELECT * FROM accommodation  WHERE location=? AND type=?');
@@ -53,12 +59,12 @@ router.get('/location/:name/type/:type',(req,res)=> {
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
-
+// Route to add a booking entry.
 router.post('/booking/add',(req,res)=>{    
         try {
-            //check if empty input
+            //Check if empty input.
             if (req.body.id == "" || req.body.npeople == "" || req.body.thedate == "" ) {
-                res.status(400).json({ error: "Blank fields" });
+                res.status(400).json({ error: "Blank fields" });// Check for blank input fields.
             } else {
                 const stmt = db.prepare('INSERT into acc_bookings(accID,thedate,npeople,username) VALUES(?,?,?,?)'); //statement - SQL query
                 const info = stmt.run(req.body.id, req.body.thedate, req.body.npeople, req.body.username); //run the query and store the information about it
@@ -66,7 +72,7 @@ router.post('/booking/add',(req,res)=>{
                 const new_info = stmt_upd.run(req.body.id,req.body.thedate)
                 
                 if (info.changes==1) {
-                    res.json({ success: 1 });
+                    res.json({ success: 1 }); // Confirm successful booking.
                 } else {
                     res.status(404).json({error: `No such location ID ${req.params.id}`});
                 }
@@ -78,6 +84,7 @@ router.post('/booking/add',(req,res)=>{
         }
     });
 
+// Route to fetch detailed accommodation information.
 
 router.get('/accommodation/:name',(req,res) => {
     try{
@@ -90,7 +97,7 @@ router.get('/accommodation/:name',(req,res) => {
     }
 });    
 
-
+// Route to fetch available accommodation by location and type.
 router.get('/accommodation/:name/type/:type',(req,res) => {
     try{
         const stmt = db.prepare('SELECT accommodation.*, acc_dates.thedate, acc_dates.availability FROM accommodation JOIN acc_dates ON accommodation.ID = acc_dates.accID WHERE accommodation.location=? AND accommodation.type=? AND acc_dates.availability > 0;');
@@ -104,6 +111,7 @@ router.get('/accommodation/:name/type/:type',(req,res) => {
 
 //#################################################################################
 
+// Route to handle user login.
   router.post('/user_login', (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -115,7 +123,7 @@ router.get('/accommodation/:name/type/:type',(req,res) => {
        
         
     }catch(error){
-
+        res.status(500).json({ error: error }); // Handle errors.
     }
   });
 

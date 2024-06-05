@@ -10,12 +10,6 @@ body {
     margin: 1em 0; /* Add some margin for headings */
   }
   
-  /* Main Content Area */
-  .main-content {
-    width: 800px; /* Set a fixed width for the main content */
-    margin: 0 auto; /* Center the content horizontally */
-    padding: 2em; /* Add some padding for content area */
-  }
   
   /* Search Form */
   
@@ -41,6 +35,17 @@ body {
   #map {
     margin: 1em auto; /* Center the map horizontally */
     border: 1px solid #ddd; /* Add a border to the map container */
+  }
+
+  .main_menue {
+    background-color: rgb(121, 196, 243);
+    width: 800px; /* Set a fixed width for the main content */
+    margin: 0 auto; /* Center the content horizontally */
+    padding: 2em; /* Add some padding for content area */
+
+  }
+  .name {
+    text-transform: capitalize;
   }
   
   div {
